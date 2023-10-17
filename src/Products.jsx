@@ -1,56 +1,46 @@
 import React, { useState } from 'react'
-import { productsData } from './data/productsData'
+import { suppliersData } from './data/suppliersData'
 
 function StateSample5() {
 
-    const [products, setproducts] = useState(productsData);
+    const [suppliers, setSuppliers] = useState(suppliersData);
 
-    const deleteProduct = (id) => {
+    const deleteSupplier = (id) => {
 
         var result = window.confirm("Want to delete?");
         if (result) {
-            var filteredProducts = products.filter(q => q.id !== id);
-            setproducts([...filteredProducts])
+            var filteredSuppliers = suppliers.filter(q => q.id !== id);
+            setSuppliers([...filteredSuppliers])
         }
     }
-    function sortProducts() {
-        const newProducts = products.reverse((a, b) => {
-            const nameA = a.name.toUpperCase();
-            const nameB = b.name.toUpperCase();
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
+    function sortSuppliers() {
+        const newSuppliers = [...suppliers].sort((a, b) => {
+            return a.companyName.localeCompare(b.companyName)
         });
-        setproducts([...newProducts])
+        setSuppliers(newSuppliers)
 
     }
     return (<>
-        <h1>Length: {products.length}</h1>
+        <h6>Length: {suppliers.length}</h6>
         <table className='w3-table w3-striped'>
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th onClick={() => sortProducts()}>Name</th>
-                    <th>Unit Price</th>
-                    <th>Stock</th>
-                    <th>Per Unit</th>
+                    <th onClick={() => sortSuppliers()}>Company Name</th>
+                    <th>Contact Name</th>
+                    <th>Country</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {
-                    products.map(item => {
+                    suppliers.map(item => {
                         return <tr>
                             <td>{item.id}</td>
-                            <td>{item.name}</td>
-                            <td>{item.unitPrice}</td>
-                            <td>{item.unitsInStock}</td>
-                            <td>{item.quantityPerUnit}</td>
-                            <td><button onClick={() => deleteProduct(item.id)} className='w3-button w3-red'>Delete</button></td>
+                            <td>{item.companyName}</td>
+                            <td>{item.contactName}</td>
+                            <td>{item.address.country}</td>
+                            <td><button onClick={() => deleteSupplier(item.id)} className='w3-button w3-red'>Delete</button></td>
                         </tr>
                     })
                 }
